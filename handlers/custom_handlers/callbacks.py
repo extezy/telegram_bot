@@ -13,6 +13,7 @@ from loguru import logger
 
 
 # Обработчик всех callback событий
+# TODO разбить функцию сильно длинная
 @bot.callback_query_handler(func=lambda query: True)
 def process_callback(query):
 
@@ -121,7 +122,9 @@ def process_callback(query):
             request.clear()
             # bot.send_message(query.from_user.id, response)
             bot.set_state(query.from_user.id, None,
-                          query.message.chat.id)  # TODO Почему работает только с явным указанием сброса состояния, иначе происходит зацикливание на событиях?
+                          query.message.chat.id)  # Почему работает только с явным указанием сброса состояния, иначе происходит зацикливание на событиях?
+            # TODO предположу что если состояние не сбросить то другой логики у вас не написано что бы выйти или обработать следующие запросы
+
 
     # Все с начала, плохой запрос
     if query.data == "request_cancel":
@@ -129,7 +132,7 @@ def process_callback(query):
         with bot.retrieve_data(query.from_user.id, query.message.chat.id) as request:
             bot.send_message(query.from_user.id, 'Попробуйте ещё', reply_markup=get_start_keyboard())
             bot.set_state(query.from_user.id, None,
-                          query.message.chat.id)  # TODO Почему работает только с явным указанием сброса состояния, иначе происходит зацикливание на событиях?
+                          query.message.chat.id)  # Почему работает только с явным указанием сброса состояния, иначе происходит зацикливание на событиях?
             request.clear()
 
     # Выбираем город из найденных
