@@ -17,7 +17,7 @@ class Hotel:
         self.__photos = []
 
     def __str__(self):
-        info = f'Название: {self.name}, Адрес:{self.street}, До центра: {self.distance_to_center} miles, Стоимость ночи: {self.__cost_per_night} USD, Полная стоимость: {self.price_per_stay} USD'
+        info = f'Название: {self.name}, Адрес:{self.street}, До центра: {self.distance_to_center} miles, Стоимость ночи: {self.__cost_per_night} USD, Полная стоимость: {self.price_per_stay} USD, {self.get_link()}'
         return info
 
     @property
@@ -108,3 +108,6 @@ class Hotel:
     @photos.setter
     def photos(self, photo_url: str):
         self.__photos.append(photo_url)
+
+    def get_link(self):
+        return f'https://www.hotels.com/ho{self.id}'
