@@ -248,3 +248,5 @@ def calendar_callback(query):
             bot.send_message(query.from_user.id, 'Предыдущий месяц',
                              reply_markup=calendar_in_message.create_calendar('Дата', year=prev_date.year,
                                                                               month=prev_date.month))
+
+# TODO дописать документацию

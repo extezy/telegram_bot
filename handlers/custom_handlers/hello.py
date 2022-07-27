@@ -8,3 +8,5 @@ def bot_hello(message: Message):
         bot.reply_to(message, f'Привет, {message.from_user.full_name}!')
     else:
         bot.reply_to(message, f'Чтобы узнать что я умею наберите /help')
+
+# TODO докстриги

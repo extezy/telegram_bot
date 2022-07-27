@@ -12,5 +12,6 @@ if __name__ == '__main__':
     logger.info("Bot started!...")
     try:
         bot.infinity_polling()
+    # TODO базовые исключения не ловим
     except Exception as exeption:
         logger.error(exeption)

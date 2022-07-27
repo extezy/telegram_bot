@@ -111,3 +111,6 @@ class Hotel:
 
     def get_link(self):
         return f'https://www.hotels.com/ho{self.id}'
+
+# TODO дописать докстринги
+

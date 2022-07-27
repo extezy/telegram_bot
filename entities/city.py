@@ -46,4 +46,5 @@ class City:
         return self.__hotels_in_search_result
 
 
+# TODO дописать докстринги
 

@@ -29,6 +29,8 @@ def request_to_api(url, querystring) -> str:
         response = requests.get(url, headers=headers, params=querystring, timeout=10)
         if response.status_code == requests.codes.ok:
             return response.text
+    # TODO ловим ошибку на таймаут
+    # TODO базовые исключения не ловим
     except Exception as exception:
         logger.error(f"Request  with url:{url}, querystring:{querystring} got: {exception}")
 
@@ -52,6 +54,7 @@ def get_info_about_city(city_name: str, locale: str) -> list[City]:
     cities_parser = re.compile(r'((?={).*?CITY.*?})')  # Выделяем города
     city_destination_parser = re.compile(r'((?<="destinationId":").\d+)')  # Находим  destinationId города
     city_name_parser = re.compile(r'((?<="name":").*?(?="))')  # Находим название города   ((?<="name":").*?(?="))
+    # TODO вышли за границы
     city_caption_parser = re.compile(r'((?<="caption":")\D*?(?="))')  # Находим описание ((?<="caption":")\D*?(?=",))   ((?<="caption":")+\D.*(?=",))
     city_clear_caption_parser = re.compile(r'([<].*?[>])')  # Чистим описание от лишнего
 
