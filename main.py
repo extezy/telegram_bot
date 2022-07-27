@@ -10,8 +10,4 @@ if __name__ == '__main__':
     bot.add_custom_filter(StateFilter(bot))
     set_default_commands(bot)
     logger.info("Bot started!...")
-    try:
-        bot.infinity_polling()
-    # TODO базовые исключения не ловим
-    except Exception as exeption:
-        logger.error(exeption)
+    bot.infinity_polling(allowed_updates=True)

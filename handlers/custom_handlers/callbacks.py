@@ -15,6 +15,12 @@ from loguru import logger
 @logger.catch
 @bot.callback_query_handler(func=lambda query: query.data in ['photo_approve', 'photo_cancel'])
 def photo_callback(query):
+    """
+    Обрабатывает  события "С фото" и "Без фото"
+    Если "С фото"-'photo_approve' то переводит в состояние обработки ввода количества фото
+    Если "Без фото"-'photo_cancel' то переводит в состояние подтверждения данных
+    :param query: callback-данные
+    """
     logger.info(f"User_id: {query.from_user.id} work with callback: {query.data}")
     if query.data == "photo_approve":
         with bot.retrieve_data(query.from_user.id, query.message.chat.id) as request:
@@ -45,6 +51,11 @@ def photo_callback(query):
 @logger.catch
 @bot.callback_query_handler(func=lambda query: query.data == 'request_approve')
 def data_approve_callback(query):
+    """
+    Обрабатывает событие подтверждения данных
+    после вывода полученных данных сбрасывает бота в начальное состояние и чистит все введенные данные
+    :param query: callback-данные
+    """
     logger.info(f"User_id: {query.from_user.id} work with callback: {query.data}")
     with bot.retrieve_data(query.from_user.id, query.message.chat.id) as request:
         bot.send_message(query.from_user.id, 'Делаю запрос!...', reply_markup=get_start_keyboard())
@@ -128,6 +139,11 @@ def data_approve_callback(query):
 @logger.catch
 @bot.callback_query_handler(func=lambda query: query.data == 'request_cancel')
 def data_cancel_callback(query):
+    """
+    Обрабатывает событие отмены введенных данных
+    Сбрасывает бота в начальное состояние и чистит все введенные данные
+    :param query: callback-данные
+    """
     logger.info(f"User_id: {query.from_user.id} work with callback: {query.data}")
     bot.set_state(query.from_user.id, state=RequestInfoState.photo_count, chat_id=query.message.chat.id)
     with bot.retrieve_data(query.from_user.id, query.message.chat.id) as request:
@@ -140,6 +156,10 @@ def data_cancel_callback(query):
 @logger.catch
 @bot.callback_query_handler(func=lambda query: query.data.split(':')[0] == 'id')
 def multiple_cities_callback(query):
+    """
+    Обрабатывает событие выбора уточненного города
+    :param query: callback-данные
+    """
     logger.info(f"User_id: {query.from_user.id} work with callback: {query.data}")
     with bot.retrieve_data(query.from_user.id, query.message.chat.id) as request:
         cities = request.get('cities')
@@ -161,6 +181,10 @@ def multiple_cities_callback(query):
 @logger.catch
 @bot.callback_query_handler(func=lambda query: query.data.startswith('Дата'))
 def calendar_callback(query):
+    """
+        Обрабатывает callback-данные календаря: дату заезда, дату отъезда
+        :param query: callback-данные
+        """
     logger.info(f"User_id: {query.from_user.id} work with callback: {query.data}")
 
     def change_month(date_value: datetime, plus: bool) -> datetime:
@@ -248,5 +272,3 @@ def calendar_callback(query):
             bot.send_message(query.from_user.id, 'Предыдущий месяц',
                              reply_markup=calendar_in_message.create_calendar('Дата', year=prev_date.year,
                                                                               month=prev_date.month))
-
-# TODO дописать документацию
